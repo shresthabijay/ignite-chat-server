@@ -2,6 +2,7 @@ const router = require("express").Router()
 const { check } = require('express-validator');
 const usersController = require("../controllers/usersController")
 const { catchErrors } = require("../handlers/errorHandlers")
+const { jwtVerification } = require("../handlers/jwtVerification")
 
 router.get("/", catchErrors(usersController.getUserDetails))
 
@@ -21,6 +22,27 @@ router.post("/login",
     check('password').isString().isLength({ min: 8 })
   ],
   catchErrors(usersController.loginUser))
+
+router.post("/sendFriendRequest",
+  [
+    check('email').isEmail(),
+  ],
+  jwtVerification,
+  catchErrors(usersController.sendFriendRequest))
+
+router.post("/updateUsersRelationship",
+  [
+    check('userId').isInt(),
+    check('action').isString(),
+  ],
+  jwtVerification,
+  catchErrors(usersController.updateUsersRelationShip))
+
+router.get("/getFriendsList",
+  [
+  ],
+  jwtVerification,
+  catchErrors(usersController.getFriendsList))
 
 
 module.exports = router
