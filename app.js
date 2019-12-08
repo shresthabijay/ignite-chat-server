@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //Bring in the routes
 app.use("/users", require("./routes/users"))
+app.use("/chats", require("./routes/chats"))
 
 // 404 Error
 app.use(function (req, res, next) {
